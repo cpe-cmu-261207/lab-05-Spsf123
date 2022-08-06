@@ -29,6 +29,10 @@ function addTodo(title, completed) {
   deleteBtn.className = "btn btn-danger";
 
   //your code here
+  div.append(span);
+  div.append(doneBtn);
+  div.append(deleteBtn);
+  todoCtn.prepend(div);
   //append todo to HTML...
   //define buttons event...
 }
@@ -37,12 +41,22 @@ function saveTodo() {
   const data = [];
   for (const todoDiv of todoCtn.children) {
     //your code here
+    const todoObj = {};
+    todoObj.title = todoDiv.children[0].innerText;
+    todoObj.completed =
+      todoDiv.children[0].style.textDecoration === "line-through";
+    data.push(todoObj);
   }
   //your code here
+  localStorage.setItem("todoList", JSON.stringify(data));
 }
 
 function loadTodo() {
   //your code here
+  const data = JSON.parse(localStorage.getItem("todoList"));
+  for (const todoObj of data.reverse()) {
+    addTodo(todoObj.title, todoObj.completed);
+  }
 }
 
 loadTodo();
